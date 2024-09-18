@@ -1,4 +1,7 @@
 import ChartSection from "@/components/chart-section";
+import CustomCarousel from "@/components/custom-carouse";
+import { crisesDummyData } from "@/lib/data";
+import { CircleChevronRight, CirclePlus, HeartHandshake } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -45,29 +48,62 @@ export default function Home() {
               hope.
             </p>
             <br />
-            <div className=" text-center py-10">
+            <div className=" text-center py-10 flex flex-col sm:flex-row md:flex-col lg:flex-row justify-center items-center">
               <Link
-                className="bg-primary/30  px-4 py-2 rounded-md text-md font-semibold "
+                className="bg-primary/15  p-2 rounded-md text-md font-semibold hover:opacity-80 flex items-center justify-center text-primary w-[180px]"
                 href={"/donation"}
               >
                 Donate Now
+                <HeartHandshake className="ml-2 h-5" />
               </Link>
-              <span className="font-semibold mx-2">OR</span>
+              <span className="font-semibold my-2 md:mx-2 ">OR</span>
               <Link
-                className="bg-primary/30 px-4 py-2 rounded-md text-md font-semibold "
+                className="bg-primary/15  p-2  rounded-md text-md font-semibold hover:opacity-80 flex items-center text-primary w-[180px]"
                 href={"/signup"}
               >
                 Join As Volunteer
+                <CirclePlus className="ml-2 h-5" />
               </Link>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Crises Carousel will go here */}
-      <div></div>
+      <div className="my-20 lg:my-32">
+        <div className="mb-5 flex justify-between items-center">
+          <h1 className="text-xl sm:text-3xl font-semibold text-primary">
+            Featured Crises
+          </h1>
+          <Link
+            className="bg-bg dark:bg-bgd px-4 py-2 rounded-md text-md font-semibold hover:opacity-80 flex items-center text-primary"
+            href={"/crisis"}
+          >
+            View More
+            <CircleChevronRight className="text-primary ml-2 h-5" />
+          </Link>
+        </div>
+        <div>
+          <CustomCarousel data={crisesDummyData}></CustomCarousel>
+        </div>
+      </div>
       {/* Volunteers Carousel will go here */}
-      <div></div>
+      <div className=" my-20 lg:my-32">
+        <div className="mb-5 flex justify-between items-center">
+          <h1 className="text-xl sm:text-3xl font-semibold text-primary">
+            Volunteers
+          </h1>
+          <Link
+            className="bg-bg dark:bg-bgd px-4 py-2 rounded-md text-md font-semibold hover:opacity-80 flex items-center text-primary"
+            href={"/volunteer"}
+          >
+            View More
+            <CircleChevronRight className="text-primary ml-2 h-5" />
+          </Link>
+        </div>
+        <div>
+          <CustomCarousel data={crisesDummyData}></CustomCarousel>
+        </div>
+      </div>
     </div>
   );
 }
