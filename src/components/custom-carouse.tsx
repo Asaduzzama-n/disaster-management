@@ -17,7 +17,7 @@ export default function CustomCarousel(params: any) {
     <div className="">
       <Carousel>
         <CarouselContent>
-          {data?.map((crisis, index) => (
+          {data?.map((crisis: any, index: number) => (
             <CarouselItem
               key={index}
               className="sm:basis-1/2 md:basis-1/3 xl:basis-1/5 "
