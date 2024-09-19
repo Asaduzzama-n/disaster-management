@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Carousel,
   CarouselContent,
@@ -39,7 +40,7 @@ export default function CustomCarousel(params: any) {
                 <div className="flex justify-end items-center hover:translate-x-2  duration-150">
                   <Link
                     className="bg-bg dark:bg-bgd  rounded-md text-md font-semibold hover:opacity-80 flex items-center text-primary"
-                    href={`/crisis/:${crisis.title}`}
+                    href={`/crises/${index}`}
                   >
                     Read More
                     <CircleChevronRight className="text-primary ml-5 " />

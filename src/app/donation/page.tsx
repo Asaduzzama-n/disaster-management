@@ -1,4 +1,5 @@
 import ChartSection from "@/components/chart-section";
+import DonationForm from "@/components/donation-form";
 
 export default function Donation() {
   return (
@@ -30,12 +31,9 @@ export default function Donation() {
         </div>
 
         {/* Right section */}
-        <div className="bg-bg dark:bg-bgd p-4 rounded-md my-5 flex-1 min-h-full">
-          Donation Form
+        <div className="bg-bg dark:bg-bgd p-4 rounded-md my-5 flex-1 min-h-full ">
+          <DonationForm></DonationForm>
         </div>
-      </div>
-      <div className=" h-96 bg-bg dark:bg-bgd mt-10 p-4">
-        ALL TIME DONATIONS
       </div>
     </div>
   );

@@ -14,6 +14,16 @@ import { useTheme } from "next-themes";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
 
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  AlignJustify,
+  ClipboardPlus,
+  Ellipsis,
+  HeartHandshake,
+  UserPen,
+  Users,
+} from "lucide-react";
+
 const navItem = [
   {
     title: "Donation",
@@ -65,6 +75,45 @@ export default function NavBar() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+          </div>
+          <div className="ml-4 flex items-center justify-center">
+            <Sheet>
+              <SheetTrigger>
+                <AlignJustify />
+              </SheetTrigger>
+              <SheetContent className="p-0 pt-20 " side={"right"}>
+                <div className="py-4 border-b-2 border-primary/40 flex justify-start items-center w-full  p-1 hover:bg-primary/15">
+                  <UserPen className="text-primary mx-5 h-4" />
+                  <Link className=" font-medium " href={"/admin/profile"}>
+                    Profile
+                  </Link>
+                </div>
+                <div className="py-4 border-b-2 border-primary/40 flex justify-start items-center w-full  p-1 hover:bg-primary/15">
+                  <Ellipsis className="text-primary mx-5 h-4" />
+                  <Link className=" font-medium " href={"/admin/crises"}>
+                    Crises
+                  </Link>
+                </div>
+                <div className="py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15">
+                  <Users className="text-primary mx-5 h-4" />
+                  <Link className=" font-medium " href={"/admin/volunteers"}>
+                    Volunteers
+                  </Link>
+                </div>
+                <div className="py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15">
+                  <ClipboardPlus className="text-primary mx-5 h-4" />
+                  <Link className=" font-medium " href={"/admin/report"}>
+                    Report
+                  </Link>
+                </div>
+                <div className="py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15">
+                  <HeartHandshake className="text-primary mx-5 h-4" />
+                  <Link className=" font-medium " href={"/admin/donations"}>
+                    Donations
+                  </Link>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>

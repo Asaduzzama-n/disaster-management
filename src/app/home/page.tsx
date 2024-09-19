@@ -76,7 +76,7 @@ export default function Home() {
           </h1>
           <Link
             className="bg-bg dark:bg-bgd px-4 py-2 rounded-md text-md font-semibold hover:opacity-80 flex items-center text-primary"
-            href={"/crisis"}
+            href={`/crises/`}
           >
             View More
             <CircleChevronRight className="text-primary ml-2 h-5" />
