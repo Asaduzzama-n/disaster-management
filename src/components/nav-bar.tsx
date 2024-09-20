@@ -20,9 +20,13 @@ import {
   ClipboardPlus,
   Ellipsis,
   HeartHandshake,
+  LayoutDashboard,
+  LogIn,
+  LogOut,
   UserPen,
   Users,
 } from "lucide-react";
+import { useAuth } from "@/app/context/AuthContext";
 
 const navItem = [
   {
@@ -38,23 +42,21 @@ const navItem = [
 export default function NavBar() {
   const { setTheme } = useTheme();
 
+  const handleLogout = () => {};
+
+  const { user } = useAuth();
+  console.log(user);
   return (
-    <div className="w-full  sm:container mx-auto">
-      <div className="flex justify-between  items-center my-2">
+    <div className="container">
+      <div className="flex justify-between items-center my-2">
         <div className="">
           <Link href={"/home"}>
             {" "}
             <Image className="h-8 w-12" alt="logo" src={logo}></Image>
           </Link>
         </div>
-        <div className="flex justify-between items-center">
-          {navItem.map((item) => (
-            <Link className="mx-2 sm:mx-4" key={item.path} href={item.path}>
-              {item.title}
-            </Link>
-          ))}
-
-          <div>
+        <div className="flex items-center">
+          <div className="mx-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
@@ -82,36 +84,90 @@ export default function NavBar() {
                 <AlignJustify />
               </SheetTrigger>
               <SheetContent className="p-0 pt-20 " side={"right"}>
-                <div className="py-4 border-b-2 border-primary/40 flex justify-start items-center w-full  p-1 hover:bg-primary/15">
+                <div className="h-40  flex justify-center items-center  mt-5 relative">
+                  <div>
+                    <Image
+                      className="rounded-full w-20 h-20 mx-auto border-2 border-primary"
+                      src={user?.avatar}
+                      height={20}
+                      width={20}
+                      alt="avatar"
+                    ></Image>
+                    <h1 className="text-primary font-semibold text-lg">
+                      {user?.firstName}
+                    </h1>
+
+                    <p className="text-end text-sm font-medium">
+                      {user?.role.toLowerCase()}
+                    </p>
+                  </div>
+                </div>
+
+                <Link
+                  className=" font-medium py-4 border-b-2 border-primary/40 flex justify-start items-center w-full  p-1 hover:bg-primary/15"
+                  href={"/admin/profile"}
+                >
                   <UserPen className="text-primary mx-5 h-4" />
-                  <Link className=" font-medium " href={"/admin/profile"}>
-                    Profile
+                  Profile
+                </Link>
+                {user?.role === "ADMIN" && (
+                  <Link
+                    className=" font-medium py-4 border-b-2 border-primary/40 flex justify-start items-center w-full  p-1 hover:bg-primary/15"
+                    href={"/admin/dashboard"}
+                  >
+                    <LayoutDashboard className="text-primary mx-5 h-4" />
+                    Dashboard
                   </Link>
-                </div>
-                <div className="py-4 border-b-2 border-primary/40 flex justify-start items-center w-full  p-1 hover:bg-primary/15">
+                )}
+
+                <Link
+                  className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
+                  href={"/admin/crises"}
+                >
                   <Ellipsis className="text-primary mx-5 h-4" />
-                  <Link className=" font-medium " href={"/admin/crises"}>
-                    Crises
-                  </Link>
-                </div>
-                <div className="py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15">
+                  Crises
+                </Link>
+
+                <Link
+                  className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
+                  href={"/admin/volunteers"}
+                >
                   <Users className="text-primary mx-5 h-4" />
-                  <Link className=" font-medium " href={"/admin/volunteers"}>
-                    Volunteers
-                  </Link>
-                </div>
-                <div className="py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15">
+                  Volunteers
+                </Link>
+
+                <Link
+                  className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
+                  href={"/admin/report"}
+                >
                   <ClipboardPlus className="text-primary mx-5 h-4" />
-                  <Link className=" font-medium " href={"/admin/report"}>
-                    Report
-                  </Link>
-                </div>
-                <div className="py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15">
+                  Report
+                </Link>
+
+                <Link
+                  className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
+                  href={"/admin/donations"}
+                >
                   <HeartHandshake className="text-primary mx-5 h-4" />
-                  <Link className=" font-medium " href={"/admin/donations"}>
-                    Donations
+                  Donations
+                </Link>
+                {user?.email ? (
+                  <button
+                    className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
+                    onClick={() => handleLogout()}
+                  >
+                    <LogOut className="text-primary mx-5 h-4" />
+                    Logout
+                  </button>
+                ) : (
+                  <Link
+                    className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
+                    href={"/login"}
+                  >
+                    <LogIn className="text-primary mx-5 h-4" />
+                    Login
                   </Link>
-                </div>
+                )}
               </SheetContent>
             </Sheet>
           </div>

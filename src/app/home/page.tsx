@@ -1,4 +1,5 @@
 import ChartSection from "@/components/chart-section";
+import CreateCrisis from "@/components/create-crisis";
 import CustomCarousel from "@/components/custom-carouse";
 import { crisesDummyData } from "@/lib/data";
 import { CircleChevronRight, CirclePlus, HeartHandshake } from "lucide-react";
@@ -72,7 +73,7 @@ export default function Home() {
       <div className="my-20 lg:my-32">
         <div className="mb-5 flex justify-between items-center">
           <h1 className="text-xl sm:text-3xl font-semibold text-primary">
-            Featured Crises
+            Recent Crises
           </h1>
           <Link
             className="bg-bg dark:bg-bgd px-4 py-2 rounded-md text-md font-semibold hover:opacity-80 flex items-center text-primary"
@@ -86,8 +87,11 @@ export default function Home() {
           <CustomCarousel data={crisesDummyData}></CustomCarousel>
         </div>
       </div>
+      <div className="my-5 md:my-10">
+        <CreateCrisis></CreateCrisis>
+      </div>
       {/* Volunteers Carousel will go here */}
-      <div className=" my-20 lg:my-32">
+      <div className=" my-20 lg:my-26">
         <div className="mb-5 flex justify-between items-center">
           <h1 className="text-xl sm:text-3xl font-semibold text-primary">
             Volunteers
