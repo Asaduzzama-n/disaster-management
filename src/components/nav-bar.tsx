@@ -28,24 +28,13 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/app/context/AuthContext";
 
-const navItem = [
-  {
-    title: "Donation",
-    path: "/donation",
-  },
-  {
-    title: "Crises",
-    path: "/crises",
-  },
-];
-
 export default function NavBar() {
   const { setTheme } = useTheme();
 
   const handleLogout = () => {};
 
   const { user } = useAuth();
-  console.log(user);
+
   return (
     <div className="container">
       <div className="flex justify-between items-center my-2">

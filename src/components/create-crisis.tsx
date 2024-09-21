@@ -102,7 +102,7 @@ export default function CreateCrisis() {
     });
 
     try {
-      const response = await fetch("http://localhost:5000/api/v1/crisis/", {
+      const response = await fetch("/crisis/", {
         method: "POST",
         body: formData,
       });

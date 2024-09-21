@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { getNewAccessToken } from "@/helpers/auth.helpers";
 import { getFromLocalStorage, setToLocalStorage } from "@/utils/local-storage";
 import axios from "axios";
 
 const instance = axios.create();
+instance.defaults.baseURL = process.env.NEXT_PUBLIC_BASEURL;
 instance.defaults.headers.post["Content-Type"] = "application/json";
 instance.defaults.headers["Accept"] = "application/json";
 instance.defaults.timeout = 60000;
@@ -34,13 +36,25 @@ instance.interceptors.response.use(
   },
   async function (error) {
     const config = error?.config;
-    if (error?.response?.status === 500 && !config?.sent) {
+    if (
+      error?.response?.status === 500 ||
+      (error?.response?.status === 401 && !config?.sent)
+    ) {
       config.sent = true;
-      const response = await getNewAccessToken();
+      try {
+        const response = await getNewAccessToken();
+        const accessToken = response?.data?.data?.accessToken;
+        config.headers["Authorization"] = accessToken;
+        setToLocalStorage("accessToken", accessToken);
+      } catch (error) {
+        // Clear tokens and redirect to login
+        setToLocalStorage("accessToken", "");
+        window.location.href = "/login";
+        return Promise.reject(error);
+      }
+
       // console.log(response);
-      const accessToken = response?.data?.data?.accessToken;
-      config.headers["Authorization"] = accessToken;
-      setToLocalStorage("accessToken", accessToken);
+
       return instance(config);
     } else {
       //   const responseObject: ResponseErrorType = {

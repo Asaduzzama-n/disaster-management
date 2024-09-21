@@ -9,7 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, MoreHorizontal, Sheet } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { format } from "date-fns";
 import Modal from "../ui/modal";
 import {
@@ -20,7 +20,6 @@ import {
   SelectLabel,
   SelectTrigger,
 } from "../ui/select";
-import { useState } from "react";
 import { SelectValue } from "@radix-ui/react-select";
 
 export type Donation = {
@@ -132,7 +131,7 @@ export const crisisColumns: ColumnDef<Crisis>[] = [
     accessorKey: "approvedBy",
     header: "Approved By",
     cell: ({ row }) => {
-      const name = row.original.admin.firstName;
+      const name = row.original?.admin?.firstName;
       return <p>{name}</p>;
     },
   },

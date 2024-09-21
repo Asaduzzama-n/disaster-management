@@ -1,11 +1,8 @@
 "use client";
 import { useAuth } from "@/app/context/AuthContext";
 import { AuthForm } from "@/components/auth-form";
-import { instance } from "@/lib/axios";
 import { signinSchema } from "@/lib/schema";
-import { useRouter } from "next/navigation";
 import React from "react";
-import toast from "react-hot-toast";
 
 type loginFormValues = {
   password: string;
@@ -13,9 +10,9 @@ type loginFormValues = {
 };
 
 export default function Login() {
-  const { login, error } = useAuth();
+  const { login } = useAuth();
 
-  const onSubmit = async (data: { email: string; password: string }) => {
+  const onSubmit = async (data: loginFormValues) => {
     try {
       await login(data.email, data.password);
     } catch (error) {

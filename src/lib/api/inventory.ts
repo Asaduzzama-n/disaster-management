@@ -1,5 +1,5 @@
 export const getInventory = async () => {
-  const result = await fetch("http://localhost:5000/api/v1/inventory/");
+  const result = await fetch("/inventory/");
 
   return result.json();
 };

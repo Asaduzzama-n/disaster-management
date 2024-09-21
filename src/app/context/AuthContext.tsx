@@ -1,11 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 "use client";
 import { instance } from "@/lib/axios";
-import React, { createContext, useContext, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 interface AuthContextProps {
   user: any;
   login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
   register: (userData: any) => Promise<void>;
   error: string | null;
   loading: boolean;
@@ -21,15 +24,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const router = useRouter();
+
   const login = async (email: string, password: string) => {
     try {
-      const response = await instance.post(
-        "http://localhost:5000/api/v1/auth/login",
-        { email, password }
-      );
+      const response = await instance.post("/auth/login", { email, password });
 
       const { userData, accessToken } = response.data.data;
-      console.log(userData);
       setUser(userData);
       setLoading(false);
       localStorage.setItem("accessToken", accessToken);
@@ -39,12 +40,31 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Check if user is authenticated on reload
+  useEffect(() => {
+    const fetchUser = async () => {
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        try {
+          const response = await instance.get("/auth/user", {
+            headers: {
+              Authorization: `${accessToken}`,
+            },
+          });
+          setUser(response.data.data.userData);
+        } catch (error) {
+          throw new Error("Failed to get user information.");
+        }
+      }
+      setLoading(false);
+    };
+
+    fetchUser();
+  }, []);
+
   const register = async (userData: any) => {
     try {
-      const response = await instance.post(
-        "http://localhost:5000/api/v1/auth/sign-up",
-        userData
-      );
+      await instance.post("/auth/sign-up", userData);
       toast.success("Registration Complete please login to continue");
     } catch (error) {
       error?.response?.data?.message
@@ -55,11 +75,18 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    setUser(null);
+    router.push("/login");
+  };
+
   return (
     <AuthContext.Provider
       value={{
         user,
         login,
+        logout,
         register,
         error,
         loading,
