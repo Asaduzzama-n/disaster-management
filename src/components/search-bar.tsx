@@ -9,7 +9,7 @@ interface FilterOption {
 
 interface SearchBarProps {
   placeholder: string;
-  filters: FilterOption[];
+  filtersField: FilterOption[];
   onSearch: (
     searchTerm: string,
     selectedFilters: Record<string, string>
@@ -18,7 +18,7 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({
   placeholder,
-  filters,
+  filtersField,
   onSearch,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,13 +26,15 @@ const SearchBar: React.FC<SearchBarProps> = ({
     Record<string, string>
   >({});
 
-  // Debouncing the search input to avoid too many API calls
+  const apiFilterKeys: Record<string, string> = {
+    Severity: "severity",
+    Status: "status",
+  };
+
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       onSearch(searchTerm, selectedFilters);
-      console.log("Search Term:", searchTerm);
-      console.log("Selected Filters:", selectedFilters);
-    }, 500); // Adjust debounce time as needed (500ms delay)
+    }, 500);
 
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, selectedFilters, onSearch]);
@@ -40,7 +42,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const handleFilterChange = (filterLabel: string, value: string) => {
     setSelectedFilters((prev) => ({
       ...prev,
-      [filterLabel]: value,
+      [apiFilterKeys[filterLabel]]: value,
     }));
   };
 
@@ -63,17 +65,23 @@ const SearchBar: React.FC<SearchBarProps> = ({
       </div>
 
       {/* Filters */}
-      <div className="mt-4 grid grid-cols-2 gap-4">
-        {filters.map((filter) => (
-          <div key={filter.label} className="w-full">
-            <label className="block text-sm font-medium ">{filter.label}</label>
+      <div className="mt-4 grid grid-cols-1 gap-4 ">
+        {filtersField.map((filtersField) => (
+          <div key={filtersField.label} className="w-full">
+            <label className="block text-sm font-medium">
+              {filtersField.label}
+            </label>
 
             <select
-              onChange={(e) => handleFilterChange(filter.label, e.target.value)}
-              className="w-full   rounded-md p-2 focus:outline-none"
+              onChange={(e) =>
+                handleFilterChange(filtersField.label, e.target.value)
+              }
+              className="w-full rounded-md p-2 focus:outline-none"
             >
-              <option value="">Select {filter.label}</option>
-              {filter.options.map((option) => (
+              <option className="text-center font-medium" value="">
+                Select {filtersField.label}
+              </option>
+              {filtersField.options.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>

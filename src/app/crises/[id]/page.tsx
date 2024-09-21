@@ -1,6 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import bg from "../../../../public/bg.jpg";
-import Image from "next/image";
+
 import {
   Accordion,
   AccordionContent,
@@ -9,33 +11,45 @@ import {
 } from "@/components/ui/accordion";
 import Link from "next/link";
 import { HeartHandshake } from "lucide-react";
+import { getSingleCrisis } from "@/lib/api/crisis";
 
-const crisis = {
-  title: "Earthquake in Region B",
-  description:
-    "Magnitude 6.5 earthquake causing severe damage Magnitude 6.5 earthquake causing severe damage Magnitude 6.5 earthquake causing severe damage Magnitude 6.5 earthquake causing severe damage",
-  imageUrls: ["earthquake1.jpg", "earthquake2.jpg"],
-  locations: ["Region B", "Region C"],
-  severity: "CRITICAL",
-  status: "ACTIVE",
-  requiredHelp: "Need medical assistance and engineers",
-  approvedBy: "Asaduzzaman", // assuming user with ID 2 exists
-};
+interface CrisisPageProps {
+  params: {
+    id: string;
+  };
+}
 
-export default function CrisisPage() {
+export default async function CrisisPage({ params }: CrisisPageProps) {
+  const { id } = params;
+
+  const result = await getSingleCrisis(Number(id));
+  const crisis = result.data || {};
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-10">
       <div className="bg-bg dark:bg-bgd p-4 rounded-md">
         <div className="grid grid-cols-2 gap-4 ">
           <div>
-            <Image className="rounded-md" src={bg} alt="bg"></Image>
+            <img
+              className="rounded-md w-full h-full opacity-70 hover:opacity-100 duration-500"
+              src={crisis?.imageUrls[0]}
+              alt="bg"
+            ></img>
           </div>
           <div>
-            <Image className="rounded-md" src={bg} alt="bg"></Image>
+            <img
+              className="rounded-md w-full h-full opacity-70 hover:opacity-100 duration-500"
+              src={crisis?.imageUrls[1]}
+              alt="bg"
+            ></img>
           </div>
         </div>
         <div className=" mt-4 ">
-          <Image className="max-h-80 rounded-md" src={bg} alt="bg"></Image>
+          <img
+            className="max-h-80 rounded-md w-full h-full opacity-70 hover:opacity-100 duration-500"
+            src={crisis?.imageUrls[2] || bg}
+            alt="bg"
+          ></img>
         </div>
       </div>
       <div className="bg-bg dark:bg-bgd p-4 rounded-md relative">
@@ -50,7 +64,7 @@ export default function CrisisPage() {
         <br />
         <div>
           <span className="text-md font-medium"> Locations: </span>
-          {crisis.locations?.map((location) => (
+          {crisis.locations?.map((location: any) => (
             <span
               className="mr-4 mb-2 rounded-full text-center bg-primary/15 px-4 text-sm font-semibold"
               key={location}

@@ -6,8 +6,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./dialog";
-import { Button } from "./button";
+} from "./ui/dialog";
+import { Button } from "./ui/button";
 
 type ModalProps = {
   trigger: string;
@@ -37,14 +37,16 @@ export default function Modal({
         <DialogTrigger className="" asChild>
           <button className="bg-primary/15 px-2 rounded-md">{trigger}</button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] ">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit}>
             {children}
             <DialogFooter>
-              <Button type="submit">Save changes</Button>
+              <button className="bg-primary/15 p-2 rounded-md" type="submit">
+                Save changes
+              </button>
             </DialogFooter>
           </form>
         </DialogContent>

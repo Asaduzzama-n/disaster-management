@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { format } from "date-fns";
-import Modal from "../ui/modal";
+import Modal from "../modal";
 import {
   Select,
   SelectContent,
@@ -21,6 +21,8 @@ import {
   SelectTrigger,
 } from "../ui/select";
 import { SelectValue } from "@radix-ui/react-select";
+import { instance } from "@/lib/axios";
+import toast from "react-hot-toast";
 
 export type Donation = {
   id: number;
@@ -73,10 +75,25 @@ export type Crisis = {
 };
 
 const handleCrisisEdit = async (data: any, id: number) => {
-  console.log("Editing Crisis:", id, data);
+  const crisisUpdatedData: { severity?: string; status?: string } = {};
+
+  if (data?.severity) crisisUpdatedData.severity = data.severity;
+  if (data?.status) crisisUpdatedData.status = data.status;
+
+  try {
+    await instance.patch(`/crisis/${id}`, crisisUpdatedData);
+    toast.success("Crisis updated.");
+  } catch (error) {
+    toast.error("Something went wrong please try again.");
+  }
 };
 const handleCrisisDelete = async (id: number) => {
-  console.log("FRR", id);
+  try {
+    await instance.delete(`/crisis/${id}`);
+    toast.success("Crisis Deleted.");
+  } catch (error) {
+    toast.error("Something went wrong please try again.");
+  }
 };
 
 export const crisisColumns: ColumnDef<Crisis>[] = [
@@ -166,7 +183,7 @@ export const crisisColumns: ColumnDef<Crisis>[] = [
                         <SelectLabel>{crisis.status}</SelectLabel>
                         <SelectItem value="PENDING">PENDING</SelectItem>
                         <SelectItem value="APPROVED">APPROVED</SelectItem>
-                        <SelectItem value="COMPLETED">COMPLETED</SelectItem>
+                        <SelectItem value="RESOLVED">RESOLVED</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>

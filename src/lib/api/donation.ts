@@ -1,6 +1,7 @@
 export const getAllDonations = async () => {
-  const result = await fetch("/donation/", {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/donation/`, {
     next: { revalidate: 30 },
+    cache: "no-cache",
   });
 
   return result.json();

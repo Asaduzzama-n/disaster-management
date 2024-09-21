@@ -1,11 +1,20 @@
 import ChartSection from "@/components/chart-section";
 import CreateCrisis from "@/components/create-crisis";
 import CustomCarousel from "@/components/custom-carouse";
+import { getAllCrisis } from "@/lib/api/crisis";
+import { getVolunteers } from "@/lib/api/volunteer";
 import { crisesDummyData } from "@/lib/data";
 import { CircleChevronRight, CirclePlus, HeartHandshake } from "lucide-react";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const result = await getAllCrisis({ status: "APPROVED" });
+
+  const crisis = result?.data?.data || [];
+
+  const volunteersRes = await getVolunteers("", "");
+  const volunteers = volunteersRes?.data?.data || [];
+
   return (
     <div className="">
       <div className="flex justify-center  items-center w-full p-4 rounded-md mx-auto bg-bg dark:bg-bgd my-4">
@@ -84,7 +93,7 @@ export default function Home() {
           </Link>
         </div>
         <div>
-          <CustomCarousel data={crisesDummyData}></CustomCarousel>
+          <CustomCarousel data={crisis}></CustomCarousel>
         </div>
       </div>
       <div className="my-5 md:my-10">
@@ -105,7 +114,7 @@ export default function Home() {
           </Link>
         </div>
         <div>
-          <CustomCarousel data={crisesDummyData}></CustomCarousel>
+          <CustomCarousel data={volunteers}></CustomCarousel>
         </div>
       </div>
     </div>

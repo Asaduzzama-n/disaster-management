@@ -111,7 +111,7 @@ export default function NavBar() {
 
                 <Link
                   className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
-                  href={"/admin/crises"}
+                  href={"/crises"}
                 >
                   <Ellipsis className="text-primary mx-5 h-4" />
                   Crises
@@ -119,7 +119,7 @@ export default function NavBar() {
 
                 <Link
                   className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
-                  href={"/admin/volunteers"}
+                  href={"/volunteers"}
                 >
                   <Users className="text-primary mx-5 h-4" />
                   Volunteers
@@ -135,7 +135,7 @@ export default function NavBar() {
 
                 <Link
                   className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
-                  href={"/admin/donations"}
+                  href={"/donations"}
                 >
                   <HeartHandshake className="text-primary mx-5 h-4" />
                   Donations

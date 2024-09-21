@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ChartConfig,
   ChartContainer,
@@ -17,6 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getAllDonations } from "@/lib/api/donation";
+import { getInventory } from "@/lib/api/inventory";
 
 export const description = "A multiple bar chart";
 
@@ -67,13 +69,65 @@ const chartConfig = {
 
 export default function ChartSection() {
   const [timeRange, setTimeRange] = useState(7); // Default to 30 days
+  const [chartData, setChartData] = useState([]);
 
   // Filter data based on the selected time range
-  const filteredData = fullChartData.slice(-timeRange);
+  const filteredData = chartData.slice(-timeRange);
 
   const handleSelectChange = (value: string) => {
     setTimeRange(Number(value));
   };
+
+  const getAllDonationAndInventory = async () => {
+    const result = await getAllDonations();
+    const donations = result.data;
+
+    const res = await getInventory();
+    const inventories = res.data;
+
+    const formatDate = (dateStr: string | number | Date) =>
+      new Date(dateStr).toISOString().split("T")[0];
+
+    // Aggregate donations by day
+    const donationTotals = donations.reduce(
+      (
+        acc: { [x: string]: any },
+        donation: { createdAt: any; amount: any }
+      ) => {
+        const day = formatDate(donation.createdAt);
+        if (!acc[day]) acc[day] = 0;
+        acc[day] += donation.amount;
+        return acc;
+      },
+      {}
+    );
+
+    // Aggregate expenses by day
+    const expenseTotals = inventories.reduce(
+      (acc: { [x: string]: any }, expense: { createdAt: any; price: any }) => {
+        const day = formatDate(expense.createdAt);
+        if (!acc[day]) acc[day] = 0;
+        acc[day] += expense.price;
+        return acc;
+      },
+      {}
+    );
+
+    // Combine donations and expenses into final format
+    const fullChartData = Object.keys({ ...donationTotals, ...expenseTotals })
+      .sort()
+      .map((day) => ({
+        day,
+        donation: donationTotals[day] || 0,
+        expense: expenseTotals[day] || 0,
+      }));
+
+    setChartData(fullChartData);
+  };
+
+  useEffect(() => {
+    getAllDonationAndInventory();
+  }, []);
 
   return (
     <div className="p-4 ">

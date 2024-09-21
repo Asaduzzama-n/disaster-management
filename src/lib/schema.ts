@@ -2,8 +2,8 @@ import * as yup from "yup";
 
 export const donationCreateSchema = yup
   .object({
-    name: yup.string().required("Name is required."),
-    email: yup.string().email().required("Email is required."),
+    donorName: yup.string().required("Name is required."),
+    donorEmail: yup.string().email().required("Email is required."),
     message: yup.string().optional(),
     amount: yup.number().positive().required("Amount is required."),
   })

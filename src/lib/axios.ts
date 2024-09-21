@@ -38,20 +38,15 @@ instance.interceptors.response.use(
     const config = error?.config;
     if (
       error?.response?.status === 500 ||
+      error?.response?.status === 403 ||
       (error?.response?.status === 401 && !config?.sent)
     ) {
       config.sent = true;
-      try {
-        const response = await getNewAccessToken();
-        const accessToken = response?.data?.data?.accessToken;
-        config.headers["Authorization"] = accessToken;
-        setToLocalStorage("accessToken", accessToken);
-      } catch (error) {
-        // Clear tokens and redirect to login
-        setToLocalStorage("accessToken", "");
-        window.location.href = "/login";
-        return Promise.reject(error);
-      }
+
+      const response = await getNewAccessToken();
+      const accessToken = response?.data?.data?.accessToken;
+      config.headers["Authorization"] = accessToken;
+      setToLocalStorage("accessToken", accessToken);
 
       // console.log(response);
 
