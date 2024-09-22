@@ -55,7 +55,8 @@ Prerequisites
 
     Node.js: Ensure Node.js (v14 or higher) is installed.
     Database: Set up a PostgreSQL.
-    Postman: For testing APIs, you can find the Postman documentation here. https://documenter.getpostman.com/view/27802886/2sAXqtc27E#intro
+    Postman: For testing APIs, you can find the Postman documentation here.
+    https://documenter.getpostman.com/view/27802886/2sAXqtc27E#intro
 
 Steps to Run Locally
 
@@ -72,7 +73,6 @@ Configure Environment Variables:
 
     Create a .env file in the root directory with the following variables:
 
-    bash
 
     NEXT_PUBLIC_BASEURL=http://localhost:5000/api/v1
 
@@ -87,28 +87,6 @@ Run the Development Server:
     Access the Application: Open your browser and go to http://localhost:3000.
 
 Postman Documentation
-
-For testing the API endpoints, use the Postman collection linked here.
-Project Structure
-
-arduino
-
-├── components
-│ ├── Admin
-│ ├── Crisis
-│ ├── Donation
-│ ├── Inventory
-│ └── Volunteer
-├── pages
-│ ├── profile
-│ ├── admin
-│ ├── crisis
-│ ├── donation
-│ ├── home
-│ └── volunteer
-├── public
-├── styles
-└── utils
 
 License
 
