@@ -79,7 +79,7 @@ export default function NavBar() {
                   <div>
                     <Image
                       className="rounded-full w-20 h-20 mx-auto border-2 border-primary"
-                      src={user?.avatar}
+                      src={user?.avatar || ""}
                       height={20}
                       width={20}
                       alt="avatar"
