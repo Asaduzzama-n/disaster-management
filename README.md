@@ -1,5 +1,12 @@
 This project is part of an assessment for a Software Engineer position. The objective is to develop a web application for disaster management, demonstrating focus, proficiency, and commitment. The application allows admin and volunteer users to manage crises, donations, volunteers, and inventory during disaster relief efforts.
 Project Overview
+
+Postman Documentation
+
+    Postman: For testing APIs, you can find the Postman documentation here.
+
+    https://documenter.getpostman.com/view/27802886/2sAXqtc27E#intro
+
 Features
 
     User Roles:
@@ -55,15 +62,14 @@ Prerequisites
 
     Node.js: Ensure Node.js (v14 or higher) is installed.
     Database: Set up a PostgreSQL.
-    Postman: For testing APIs, you can find the Postman documentation here.
-    https://documenter.getpostman.com/view/27802886/2sAXqtc27E#intro
 
 Steps to Run Locally
 
     Clone the Repository:
 
-git clone https://github.com/your-repo/disaster-management.git
-cd disaster-management
+git clone git@github.com:Asaduzzama-n/disaster-management.git
+
+    cd disaster-management
 
 Install Dependencies:
 
@@ -76,17 +82,11 @@ Configure Environment Variables:
 
     NEXT_PUBLIC_BASEURL=http://localhost:5000/api/v1
 
-Run Database Migrations (Using Prisma ORM):
-
-npx prisma migrate dev
-
 Run the Development Server:
 
     npm run dev
 
     Access the Application: Open your browser and go to http://localhost:3000.
-
-Postman Documentation
 
 License
 
