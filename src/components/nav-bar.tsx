@@ -17,7 +17,7 @@ import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   AlignJustify,
-  ClipboardPlus,
+  Boxes,
   Ellipsis,
   HeartHandshake,
   LayoutDashboard,
@@ -31,7 +31,9 @@ import { useAuth } from "@/app/context/AuthContext";
 export default function NavBar() {
   const { setTheme } = useTheme();
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+  };
 
   const { user } = useAuth();
 
@@ -99,55 +101,98 @@ export default function NavBar() {
                   <UserPen className="text-primary mx-5 h-4" />
                   Profile
                 </Link>
-                {user?.role === "ADMIN" && (
-                  <Link
-                    className=" font-medium py-4 border-b-2 border-primary/40 flex justify-start items-center w-full  p-1 hover:bg-primary/15"
-                    href={"/admin/dashboard"}
-                  >
-                    <LayoutDashboard className="text-primary mx-5 h-4" />
-                    Dashboard
-                  </Link>
+                {user?.role === "ADMIN" ? (
+                  <>
+                    <Link
+                      className=" font-medium py-4 border-b-2 border-primary/40 flex justify-start items-center w-full  p-1 hover:bg-primary/15"
+                      href={"/admin/dashboard"}
+                    >
+                      <LayoutDashboard className="text-primary mx-5 h-4" />
+                      Dashboard
+                    </Link>
+
+                    <div className="">
+                      <Link
+                        className=" font-medium py-4 border-b-2 border-primary/40 flex justify-start items-center w-full p-1 hover:bg-primary/15"
+                        href={"/admin/crises"}
+                      >
+                        <Ellipsis className="text-primary mx-5 h-4" />
+                        Crises
+                      </Link>
+
+                      <Link
+                        className=" font-medium py-4 border-b-2 border-primary/40 flex justify-start items-center w-full p-1 hover:bg-primary/15"
+                        href={"/admin/donations"}
+                      >
+                        <HeartHandshake className="text-primary mx-5 h-4" />
+                        Donations
+                      </Link>
+
+                      <Link
+                        className=" font-medium py-4 border-b-2 border-primary/40 flex justify-start items-center w-full p-1 hover:bg-primary/15"
+                        href={"/admin/inventories"}
+                      >
+                        <Boxes className="text-primary mx-5 h-4" />
+                        Inventories
+                      </Link>
+
+                      <Link
+                        className=" font-medium py-4 border-b-2 border-primary/40 flex justify-start items-center w-full p-1 hover:bg-primary/15"
+                        href={"/admin/volunteers"}
+                      >
+                        <Users className="text-primary mx-5 h-4" />
+                        Volunteers
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  <div className="">
+                    <Link
+                      className=" font-medium py-4 border-b-2 border-primary/40 flex justify-start items-center w-full p-1 hover:bg-primary/15"
+                      href={"/crises"}
+                    >
+                      <Ellipsis className="text-primary mx-5 h-4" />
+                      Crises
+                    </Link>
+
+                    <Link
+                      className=" font-medium py-4 border-b-2 border-primary/40 flex justify-start items-center w-full p-1 hover:bg-primary/15"
+                      href={"/donations"}
+                    >
+                      <HeartHandshake className="text-primary mx-5 h-4" />
+                      Donations
+                    </Link>
+
+                    {user?.role === "VOLUNTEER" && (
+                      <Link
+                        className=" font-medium py-4 border-b-2 border-primary/40 flex justify-start items-center w-full p-1 hover:bg-primary/15"
+                        href={"/inventories"}
+                      >
+                        <Boxes className="text-primary mx-5 h-4" />
+                        Inventories
+                      </Link>
+                    )}
+
+                    <Link
+                      className=" font-medium py-4 border-b-2 border-primary/40 flex justify-start items-center w-full p-1 hover:bg-primary/15"
+                      href={"/volunteers"}
+                    >
+                      <Users className="text-primary mx-5 h-4" />
+                      Volunteers
+                    </Link>
+                  </div>
                 )}
 
-                <Link
-                  className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
-                  href={"/crises"}
-                >
-                  <Ellipsis className="text-primary mx-5 h-4" />
-                  Crises
-                </Link>
-
-                <Link
-                  className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
-                  href={"/volunteers"}
-                >
-                  <Users className="text-primary mx-5 h-4" />
-                  Volunteers
-                </Link>
-
-                <Link
-                  className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
-                  href={"/admin/report"}
-                >
-                  <ClipboardPlus className="text-primary mx-5 h-4" />
-                  Report
-                </Link>
-
-                <Link
-                  className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
-                  href={"/donations"}
-                >
-                  <HeartHandshake className="text-primary mx-5 h-4" />
-                  Donations
-                </Link>
-                {user?.email ? (
-                  <button
-                    className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
-                    onClick={() => handleLogout()}
-                  >
-                    <LogOut className="text-primary mx-5 h-4" />
-                    Logout
-                  </button>
+                {user?.role ? (
+                  <>
+                    <button
+                      className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"
+                      onClick={() => handleLogout()}
+                    >
+                      <LogOut className="text-primary mx-5 h-4" />
+                      Logout
+                    </button>
+                  </>
                 ) : (
                   <Link
                     className=" font-medium py-4 flex border-b-2 border-primary/40 justify-start items-center w-full  p-1 hover:bg-primary/15"

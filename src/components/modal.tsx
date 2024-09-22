@@ -24,11 +24,9 @@ export default function Modal({
 }: ModalProps) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Assuming the form data is in the form of a FormData object
     const formData = new FormData(event.currentTarget);
-    // Convert FormData to a plain object if needed
     const data = Object.fromEntries(formData.entries());
-    onSubmit(data); // Call onSubmit with form data
+    onSubmit(data);
   };
 
   return (

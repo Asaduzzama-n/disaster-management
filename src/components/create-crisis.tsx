@@ -102,10 +102,13 @@ export default function CreateCrisis() {
     });
 
     try {
-      const response = await fetch("/crisis/", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASEURL}/crisis/`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Network response was not ok");

@@ -19,7 +19,6 @@ export const getAllCrisis = async (params?: CrisisQueryParams) => {
   if (params?.sortBy) url.searchParams.append("sortBy", params.sortBy);
 
   const result = await fetch(url.toString(), {
-    next: { revalidate: 30 },
     cache: "no-cache",
   });
   return result.json();

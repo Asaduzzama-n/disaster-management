@@ -1,6 +1,5 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,20 +8,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { format } from "date-fns";
-import Modal from "../modal";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-} from "../ui/select";
-import { SelectValue } from "@radix-ui/react-select";
-import { instance } from "@/lib/axios";
-import toast from "react-hot-toast";
 
 export type Donation = {
   id: number;
@@ -55,171 +42,6 @@ export const donationColumns: ColumnDef<Donation>[] = [
             {/* Add more actions as needed */}
           </DropdownMenuContent>
         </DropdownMenu>
-      );
-    },
-  },
-];
-
-export type Crisis = {
-  id: number;
-  title: string;
-  imageUrls: string[];
-  locations: string[];
-  severity: string;
-  status: string;
-  requiredHelp: string;
-  approvedBy: string;
-  admin: {
-    firstName: string;
-  };
-};
-
-const handleCrisisEdit = async (data: any, id: number) => {
-  const crisisUpdatedData: { severity?: string; status?: string } = {};
-
-  if (data?.severity) crisisUpdatedData.severity = data.severity;
-  if (data?.status) crisisUpdatedData.status = data.status;
-
-  try {
-    await instance.patch(`/crisis/${id}`, crisisUpdatedData);
-    toast.success("Crisis updated.");
-  } catch (error) {
-    toast.error("Something went wrong please try again.");
-  }
-};
-const handleCrisisDelete = async (id: number) => {
-  try {
-    await instance.delete(`/crisis/${id}`);
-    toast.success("Crisis Deleted.");
-  } catch (error) {
-    toast.error("Something went wrong please try again.");
-  }
-};
-
-export const crisisColumns: ColumnDef<Crisis>[] = [
-  {
-    accessorKey: "imageUrls",
-    header: "Image",
-    cell: ({ row }) => {
-      const crisis = row.original;
-      return (
-        <Image
-          width={50}
-          height={50}
-          src={crisis.imageUrls[0]} // Use the first image URL
-          alt="Crisis Image"
-          className="h-10 w-10 object-cover rounded"
-        />
-      );
-    },
-  },
-  { accessorKey: "title", header: "Title" },
-  { accessorKey: "locations", header: "Locations" },
-  {
-    accessorKey: "severity",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Severity
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "status",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Status
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  { accessorKey: "requiredHelp", header: "Required Help" },
-  {
-    accessorKey: "approvedBy",
-    header: "Approved By",
-    cell: ({ row }) => {
-      const name = row.original?.admin?.firstName;
-      return <p>{name}</p>;
-    },
-  },
-  {
-    accessorKey: "Actions",
-    id: "actions",
-    cell: ({ row }) => {
-      const crisis = row.original;
-
-      return (
-        <div className="flex items-center space-x-2">
-          <Modal
-            onSubmit={(data) => handleCrisisEdit(data, crisis.id)}
-            trigger="Edit"
-            title="Update Crisis"
-          >
-            <div className="space-y-4">
-              <div className="my-5 grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="status"
-                    className="block text-sm font-medium "
-                  >
-                    Status
-                  </label>
-                  <Select name="status">
-                    <SelectTrigger className="">
-                      <SelectValue placeholder="SELECT" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>{crisis.status}</SelectLabel>
-                        <SelectItem value="PENDING">PENDING</SelectItem>
-                        <SelectItem value="APPROVED">APPROVED</SelectItem>
-                        <SelectItem value="RESOLVED">RESOLVED</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <label
-                    htmlFor="severity"
-                    className="block text-sm font-medium "
-                  >
-                    Severity
-                  </label>
-                  <Select name="severity">
-                    <SelectTrigger className="">
-                      <SelectValue placeholder="SELECT" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>{crisis.severity}</SelectLabel>
-                        <SelectItem value="Low">LOW</SelectItem>
-                        <SelectItem value="Medium">MEDIUM</SelectItem>
-                        <SelectItem value="High">HIGH</SelectItem>
-                        <SelectItem value="Critical">CRITICAL</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </div>
-          </Modal>
-          <button
-            className="bg-red-600/30 px-2 rounded-md"
-            onClick={() => handleCrisisDelete(crisis.id)}
-          >
-            Delete
-          </button>
-        </div>
       );
     },
   },

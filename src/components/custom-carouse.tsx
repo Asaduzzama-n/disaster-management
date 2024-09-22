@@ -30,7 +30,7 @@ export default function CustomCarousel(params: any) {
                     <h4 className="text-md font-semibold line-clamp-1">
                       {item.title}
                     </h4>
-                    <small className="line-clamp-2">{item.description}</small>
+                    <small className="line-clamp-1">{item.description}</small>
                   </div>
                   <div className="flex aspect-square items-center justify-center  rounded-md">
                     <img
